@@ -11,14 +11,14 @@ namespace UoWR.Arch.Core.UnitOfWork
 
         private bool disposed = false;
         private Dictionary<string, object> repositories;
-        private GenericRepositoryDBContext context;
+        private EfRepositoryDBContext context;
 
         /// <summary>
         /// Initializes a new instance of the UnitOfWork class.
         /// </summary>
         public UnitOfWork()
         {
-            context = new GenericRepositoryDBContext();
+            context = new EfRepositoryDBContext();
         }
 
         /// <summary>

@@ -7,13 +7,9 @@ using System.Text;
 namespace UoWR.Arch.Core.Repository
 {
     /// <summary>
-
     ///  Generic repository class that defineds operation related to CRUD.
-
     /// </summary>
-
     /// <typeparam name=”T”></typeparam>
-
     public class Repository<T> : IRepository<T> where T : class
     {
         public DbContext context;
