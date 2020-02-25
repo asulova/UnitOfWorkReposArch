@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace UoWR.Arch.Domain.Mapping
 {
-    public class PersonConfig : IEntityTypeConfiguration<Person>
+    public class PersonMap : IEntityTypeConfiguration<Person>
     {
         public void Configure(EntityTypeBuilder<Person> personConfiguration)
         {

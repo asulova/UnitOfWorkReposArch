@@ -7,6 +7,8 @@ using UoWR.Arch.Persistence;
 using UoWR.Arch.Core.UnitOfWork;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Hosting;
+using AutoMapper;
+using UoWR.Arch.Models;
 
 namespace UnitOfWorkReposArch
 {
@@ -22,6 +24,13 @@ namespace UnitOfWorkReposArch
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddDbContext<EfRepositoryDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<DbContext, EfRepositoryDBContext>();

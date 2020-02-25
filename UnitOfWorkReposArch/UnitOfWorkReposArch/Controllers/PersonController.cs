@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using UoWR.Arch.Core.UnitOfWork;
 using UoWR.Arch.Domain;
-using UoWR.Arch.Model.Person;
+using UoWR.Arch.Models.PersonModel;
 
 namespace UoWR.Arch.Controllers
 {
@@ -10,10 +11,12 @@ namespace UoWR.Arch.Controllers
     public class PersonController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public PersonController(IUnitOfWork unitOfWork)
+        public PersonController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -23,9 +26,9 @@ namespace UoWR.Arch.Controllers
         }
 
         [HttpPost]
-        public void Post(CreatePerson person)
+        public void Post(PersonDTO person)
         {
-            _unitOfWork.Repository<Person>().Insert(new Person() { FirstName = person.FirstName, LastName = person.LastName });
+            _unitOfWork.Repository<Person>().Insert(_mapper.Map<Person>(person));
             _unitOfWork.Save();
         }
     }
