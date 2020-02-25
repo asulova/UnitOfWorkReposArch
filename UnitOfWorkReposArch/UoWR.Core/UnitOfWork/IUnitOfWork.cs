@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Text;
-using UoWR.Arch.Core.Repository;
+﻿using UoWR.Arch.Core.Repository;
 
 namespace UoWR.Arch.Core.UnitOfWork
 {

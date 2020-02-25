@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
-using System.Text;
 
 namespace UoWR.Arch.Core.Repository
 {

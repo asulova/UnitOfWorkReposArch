@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UoWR.Arch.Core.UnitOfWork;
 using UoWR.Arch.Domain;
+using UoWR.Arch.Model.Person;
 
 namespace UoWR.Arch.Controllers
 {
@@ -22,9 +23,10 @@ namespace UoWR.Arch.Controllers
         }
 
         [HttpPost]
-        public void Post(Person person)
+        public void Post(CreatePerson person)
         {
-            _unitOfWork.Repository<Person>().Insert(person);
+            _unitOfWork.Repository<Person>().Insert(new Person() { FirstName = person.FirstName, LastName = person.LastName });
+            _unitOfWork.Save();
         }
     }
 }

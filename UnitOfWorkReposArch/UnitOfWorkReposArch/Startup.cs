@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using UoWR.Arch.Core.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
 using UoWR.Arch.Persistence;
+using UoWR.Arch.Core.UnitOfWork;
+using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Hosting;
 
 namespace UnitOfWorkReposArch
 {
@@ -22,8 +22,10 @@ namespace UnitOfWorkReposArch
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<EfRepositoryDBContext>(opt => opt.UseInMemoryDatabase("DB"));
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+
+            services.AddDbContext<EfRepositoryDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<DbContext, EfRepositoryDBContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -38,6 +40,7 @@ namespace UnitOfWorkReposArch
             {
                 app.UseDeveloperExceptionPage();
             }
+            
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 

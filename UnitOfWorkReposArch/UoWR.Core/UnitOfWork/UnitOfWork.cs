@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UoWR.Arch.Core.Repository;
-using UoWR.Arch.Persistence;
 
 namespace UoWR.Arch.Core.UnitOfWork
 {
@@ -11,14 +11,14 @@ namespace UoWR.Arch.Core.UnitOfWork
 
         private bool disposed = false;
         private Dictionary<string, object> repositories;
-        private EfRepositoryDBContext context;
+        private DbContext _dbContext;
 
         /// <summary>
         /// Initializes a new instance of the UnitOfWork class.
         /// </summary>
-        public UnitOfWork()
+        public UnitOfWork(DbContext dbContext)
         {
-            context = new EfRepositoryDBContext();
+            _dbContext = dbContext;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace UoWR.Arch.Core.UnitOfWork
             {
                 if (disposing)
                 {
-                    context.Dispose();
+                    _dbContext.Dispose();
                 }
             }
             disposed = true;
@@ -62,8 +62,7 @@ namespace UoWR.Arch.Core.UnitOfWork
 
             if (!repositories.ContainsKey(type))
             {
-                var repositoryType = typeof(Repository<>);
-                var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T)), context);
+                var repositoryInstance = new Repository<T>(_dbContext);
                 repositories.Add(type, repositoryInstance);
             }
             return (Repository<T>)repositories[type];
@@ -74,7 +73,7 @@ namespace UoWR.Arch.Core.UnitOfWork
         /// </summary>
         public void Save()
         {
-            context.SaveChanges();
+            _dbContext.SaveChanges();
         }
     }
 }
